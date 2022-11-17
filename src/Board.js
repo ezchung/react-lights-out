@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { cloneElement, useState } from "react";
 import Cell from "./Cell";
 import "./Board.css";
 
@@ -29,8 +29,9 @@ import "./Board.css";
 
 function Board({ nrows, ncols, chanceLightStartsOn }) {
   const [board, setBoard] = useState(createBoard());
+  console.log("Board", board);
 
-  function getRandomBoolean(){
+  function getRandomBoolean() {
     return Math.random() < chanceLightStartsOn;
   }
 
@@ -38,25 +39,28 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
   function createBoard() {
     let initialBoard = [];
     // TODO: create array-of-arrays of true/false values
-    for(let i = 0; i < ncols; i++){
+    for (let i = 0; i < ncols; i++) {
       let row = [];
-      for(let j = 0; j < nrows; j++){
+      for (let j = 0; j < nrows; j++) {
         row.push(getRandomBoolean());
       }
       initialBoard.push(row);
     }
     return initialBoard;
   }
-  console.log(createBoard(), "boarding")
+  // console.log(createBoard(), "boarding");
   function hasWon() {
     // TODO: check the board in state to determine whether the player has won.
-    let checkBoard = board.filter( row =>  !(row.includes(true) ) ); 
+    let checkBoard = board.filter((row) => !row.includes(true));
+    // console.log(checkBoard, "XXXXXXXX")
     return checkBoard.length > 0;
   }
+  // console.log(hasWon(), "YYYYYYYY")
 
   function flipCellsAround(coord) {
-    setBoard(oldBoard => {
+    setBoard((oldBoard) => {
       const [y, x] = coord.split("-").map(Number);
+      console.log(oldBoard, "oldBoard Flip cells around");
 
       const flipCell = (y, x, boardCopy) => {
         // if this coord is actually on board, flip it
@@ -66,21 +70,34 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
         }
       };
 
-      // TODO: Make a (deep) copy of the oldBoard
+      // TODO: Make a (deep) copy of the oldBoard (identical but different reference)
+      //* Same data (identical twin)
+      const deepBoard = [...oldBoard];
+      console.log(deepBoard);
 
       // TODO: in the copy, flip this cell and the cells around it
+      flipCell(y, x, deepBoard);
+      flipCell(y - 1, x, deepBoard);
+      flipCell(y + 1, x, deepBoard);
+      flipCell(y, x - 1, deepBoard);
+      flipCell(y, x + 1, deepBoard);
 
       // TODO: return the copy
+      return deepBoard;
     });
   }
+  // flipCellsAround("2-1")
+  //* Display board on click to see how it will run
+  //* Can also display button on click to flip cells around
 
   // if the game is won, just show a winning msg & render nothing else
 
-  // TODO
+  // TODO: If statement to check if winning
 
   // make table board
 
-  // TODO
+  // TODO: Create table board and pass cells into it
+  return <button onClick={() => flipCellsAround("0-1")}>PUSH</button>;
 }
 
 export default Board;
