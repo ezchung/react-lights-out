@@ -9,7 +9,7 @@ function App() {
   console.log("In app")
   return (
       <div className="App">
-        <Board nrows={5} ncols={5} chanceLightStartsOn={.5}/>
+        <Board nrows={2} ncols={2} chanceLightStartsOn={0}/>
       </div>
   );
 }

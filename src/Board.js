@@ -50,7 +50,8 @@ function Board({ nrows, ncols, chanceLightStartsOn }) {
   console.log(createBoard(), "boarding")
   function hasWon() {
     // TODO: check the board in state to determine whether the player has won.
-
+    let checkBoard = board.filter( row =>  !(row.includes(true) ) ); 
+    return checkBoard.length > 0;
   }
 
   function flipCellsAround(coord) {
