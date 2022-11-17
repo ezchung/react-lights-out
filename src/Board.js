@@ -30,15 +30,27 @@ import "./Board.css";
 function Board({ nrows, ncols, chanceLightStartsOn }) {
   const [board, setBoard] = useState(createBoard());
 
+  function getRandomBoolean(){
+    return Math.random() < chanceLightStartsOn;
+  }
+
   /** create a board nrows high/ncols wide, each cell randomly lit or unlit */
   function createBoard() {
     let initialBoard = [];
     // TODO: create array-of-arrays of true/false values
+    for(let i = 0; i < ncols; i++){
+      let row = [];
+      for(let j = 0; j < nrows; j++){
+        row.push(getRandomBoolean());
+      }
+      initialBoard.push(row);
+    }
     return initialBoard;
   }
-
+  console.log(createBoard(), "boarding")
   function hasWon() {
     // TODO: check the board in state to determine whether the player has won.
+
   }
 
   function flipCellsAround(coord) {
